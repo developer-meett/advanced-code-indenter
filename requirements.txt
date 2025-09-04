@@ -1,0 +1,8 @@
+Flask==2.3.3
+Flask-CORS==4.0.0
+black==23.9.1
+autopep8==2.0.4
+jsbeautifier==1.14.9
+pygments==2.16.1
+Werkzeug==2.3.7
+gunicorn==21.2.0

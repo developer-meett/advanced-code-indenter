@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Code Indenter - Intelligent Code Formatting</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Highlight.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom styles for better code display */
+        .code-container {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+        
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        .detection-spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #10b981;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            animation: spin 1s linear infinite;
+            margin-right: 6px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Enhanced highlight.js styling */
+        .hljs {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .confidence-high { color: #10b981; }
+        .confidence-medium { color: #f59e0b; }
+        .confidence-low { color: #ef4444; }
+        
+        .language-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .auto-detected {
+            background-color: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .manual-selected {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-gradient-to-r from-blue-500 to-indigo-600 p-2 rounded-lg">
+                        <i class="fas fa-magic text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Advanced Code Indenter</h1>
+                        <p class="text-sm text-gray-600">Intelligent code formatting with automatic language detection</p>
+                    </div>
+                </div>
+                <div class="hidden sm:flex items-center space-x-2 text-sm text-gray-500">
+                    <i class="fas fa-brain"></i>
+                    <span>Auto-detects 13+ programming languages</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Input Section -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+                        <i class="fas fa-edit text-blue-500 mr-2"></i>
+                        Input Code
+                    </h2>
+                    <div class="flex items-center space-x-3">
+                        <div id="detection-status" class="hidden flex items-center text-sm">
+                            <div class="detection-spinner"></div>
+                            <span class="text-green-600">Detecting language...</span>
+                        </div>
+                        <label for="language-select" class="text-sm font-medium text-gray-700">Language:</label>
+                        <div class="relative">
+                            <select id="language-select" class="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-32">
+                                <option value="text">Auto-detect</option>
+                                <option value="python">Python</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="typescript">TypeScript</option>
+                                <option value="html">HTML</option>
+                                <option value="css">CSS</option>
+                                <option value="cpp">C++</option>
+                                <option value="java">Java</option>
+                                <option value="csharp">C#</option>
+                                <option value="go">Go</option>
+                                <option value="ruby">Ruby</option>
+                                <option value="php">PHP</option>
+                                <option value="json">JSON</option>
+                                <option value="xml">XML</option>
+                            </select>
+                            <div id="detection-indicator" class="absolute top-1 right-1 hidden">
+                                <i class="fas fa-magic text-green-500 text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="detection-info" class="mb-3 hidden">
+                    <div class="language-badge auto-detected">
+                        <i class="fas fa-brain mr-1"></i>
+                        <span id="detected-language-text">Auto-detected: Python</span>
+                        <span id="confidence-indicator" class="ml-1 confidence-high">●</span>
+                    </div>
+                </div>
+                
+                <textarea 
+                    id="code-input" 
+                    placeholder="Paste your code here and watch the magic happen... ✨
+Language auto-detection will activate after you paste or stop typing!"
+                    class="w-full h-96 p-4 border border-gray-300 rounded-lg font-mono text-sm leading-relaxed resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                ></textarea>
+                
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="flex items-center space-x-4">
+                        <button 
+                            id="format-btn" 
+                            class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-indigo-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 flex items-center"
+                        >
+                            <i class="fas fa-magic mr-2"></i>
+                            Format Code
+                        </button>
+                        <button 
+                            id="clear-btn" 
+                            class="bg-gray-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200"
+                        >
+                            <i class="fas fa-trash mr-2"></i>
+                            Clear
+                        </button>
+                        <button 
+                            id="sample-btn" 
+                            class="bg-purple-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-600 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200"
+                        >
+                            <i class="fas fa-code mr-2"></i>
+                            Try Sample
+                        </button>
+                    </div>
+                    <div class="text-xs text-gray-500 flex items-center space-x-4">
+                        <span><span id="char-count">0</span> characters</span>
+                        <span><span id="line-count">0</span> lines</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Section -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        Formatted Output
+                    </h2>
+                    <div class="flex items-center space-x-2">
+                        <div id="format-info" class="hidden text-xs text-gray-500 mr-3">
+                            <span>Formatted as: </span>
+                            <span id="formatted-as-language" class="font-medium text-blue-600"></span>
+                        </div>
+                        <button 
+                            id="copy-btn" 
+                            class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 opacity-0 invisible"
+                        >
+                            <i class="fas fa-copy mr-2"></i>
+                            Copy Code
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <!-- Loading State -->
+                    <div id="loading-state" class="hidden absolute inset-0 bg-white bg-opacity-90 rounded-lg flex items-center justify-center z-10">
+                        <div class="flex items-center text-blue-600">
+                            <div class="loading-spinner"></div>
+                            <span class="font-medium">Formatting your code...</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Output Container -->
+                    <div id="output-container" class="h-96 border border-gray-300 rounded-lg overflow-auto">
+                        <div id="placeholder" class="h-full flex items-center justify-center text-gray-400">
+                            <div class="text-center">
+                                <i class="fas fa-brain text-4xl mb-4 text-indigo-300"></i>
+                                <p class="text-lg font-medium">Formatted code will appear here</p>
+                                <p class="text-sm mt-2">Paste code above to see automatic language detection in action!</p>
+                                <div class="mt-4 flex justify-center space-x-4 text-xs">
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded">Auto-Detection</span>
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Smart Formatting</span>
+                                    <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">13+ Languages</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <pre id="output-code" class="hidden code-container h-full"><code id="highlighted-code"></code></pre>
+                    </div>
+                </div>
+                
+                <!-- Success/Error Messages -->
+                <div id="message-container" class="mt-4"></div>
+            </div>
+        </div>
+
+        <!-- Language Support Grid -->
+        <div class="mt-12 bg-white rounded-xl shadow-lg p-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-6 text-center flex items-center justify-center">
+                <i class="fas fa-language text-indigo-600 mr-2"></i>
+                Supported Languages & Features
+            </h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="space-y-3">
+                    <h4 class="font-semibold text-gray-800 border-b border-gray-200 pb-2">Web Technologies</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center"><i class="fab fa-js text-yellow-500 mr-2"></i>JavaScript</div>
+                        <div class="flex items-center"><i class="fab fa-html5 text-orange-500 mr-2"></i>HTML</div>
+                        <div class="flex items-center"><i class="fab fa-css3 text-blue-500 mr-2"></i>CSS</div>
+                        <div class="flex items-center"><i class="fab fa-js text-blue-600 mr-2"></i>TypeScript</div>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="font-semibold text-gray-800 border-b border-gray-200 pb-2">Backend Languages</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center"><i class="fab fa-python text-blue-600 mr-2"></i>Python</div>
+                        <div class="flex items-center"><i class="fab fa-java text-red-600 mr-2"></i>Java</div>
+                        <div class="flex items-center"><i class="fas fa-hashtag text-purple-600 mr-2"></i>C#</div>
+                        <div class="flex items-center"><i class="fab fa-php text-indigo-600 mr-2"></i>PHP</div>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="font-semibold text-gray-800 border-b border-gray-200 pb-2">System Languages</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center"><i class="fas fa-code text-blue-700 mr-2"></i>C++</div>
+                        <div class="flex items-center"><i class="fab fa-google text-cyan-500 mr-2"></i>Go</div>
+                        <div class="flex items-center"><i class="fas fa-gem text-red-500 mr-2"></i>Ruby</div>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <h4 class="font-semibold text-gray-800 border-b border-gray-200 pb-2">Data Formats</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center"><i class="fas fa-brackets-curly text-green-600 mr-2"></i>JSON</div>
+                        <div class="flex items-center"><i class="fas fa-code text-orange-600 mr-2"></i>XML</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 grid md:grid-cols-3 gap-6 pt-6 border-t border-gray-200">
+                <div class="text-center">
+                    <div class="bg-green-100 p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-brain text-green-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Smart Detection</h4>
+                    <p class="text-sm text-gray-600">Uses advanced AI and pattern recognition to automatically identify your code's language</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-blue-100 p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-bolt text-blue-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Instant Formatting</h4>
+                    <p class="text-sm text-gray-600">Lightning-fast code formatting with real-time language detection as you type</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-purple-100 p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-palette text-purple-600 text-xl"></i>
+                    </div>
+                    <h4 class="font-semibold text-gray-900 mb-2">Beautiful Output</h4>
+                    <p class="text-sm text-gray-600">Syntax highlighting and professional formatting for better code readability</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-16 bg-gray-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-400">
+                Built with <i class="fas fa-heart text-red-500"></i> using Flask, Pygments, and modern web technologies
+            </p>
+            <p class="text-gray-500 text-sm mt-2">
+                Advanced language detection powered by AI • Professional code formatting • Real-time processing
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const codeInput = document.getElementById('code-input');
+        const languageSelect = document.getElementById('language-select');
+        const formatBtn = document.getElementById('format-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const sampleBtn = document.getElementById('sample-btn');
+        const copyBtn = document.getElementById('copy-btn');
+        const outputContainer = document.getElementById('output-container');
+        const placeholder = document.getElementById('placeholder');
+        const outputCode = document.getElementById('output-code');
+        const highlightedCode = document.getElementById('highlighted-code');
+        const loadingState = document.getElementById('loading-state');
+        const messageContainer = document.getElementById('message-container');
+        const charCount = document.getElementById('char-count');
+        const lineCount = document.getElementById('line-count');
+        const detectionStatus = document.getElementById('detection-status');
+        const detectionInfo = document.getElementById('detection-info');
+        const detectedLanguageText = document.getElementById('detected-language-text');
+        const confidenceIndicator = document.getElementById('confidence-indicator');
+        const detectionIndicator = document.getElementById('detection-indicator');
+        const formatInfo = document.getElementById('format-info');
+        const formattedAsLanguage = document.getElementById('formatted-as-language');
+
+        // State variables
+        let detectionTimeout;
+        let isDetecting = false;
+        let lastDetectedLanguage = null;
+        let isManualSelection = false;
+
+        // Sample code for different languages
+        const sampleCode = {
+            python: `def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)
+
+# Print first 10 Fibonacci numbers
+for i in range(10):
+    print(f"F({i}) = {fibonacci(i)}")`,
+            
+            javascript: `function quickSort(arr) {
+    if (arr.length <= 1) {
+        return arr;
+    }
+    
+    const pivot = arr[Math.floor(arr.length / 2)];
+    const left = [];
+    const right = [];
+    
+    for (let i = 0; i < arr.length; i++) {
+        if (i === Math.floor(arr.length / 2)) continue;
+        
+        if (arr[i] < pivot) {
+            left.push(arr[i]);
+        } else {
+            right.push(arr[i]);
+        }
+    }
+    
+    return [...quickSort(left), pivot, ...quickSort(right)];
+}
+
+console.log(quickSort([3, 6, 8, 10, 1, 2, 1]));`,
+
+            html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Page</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Website</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="home">
+            <h2>Home Section</h2>
+            <p>This is the home section content.</p>
+        </section>
+    </main>
+</body>
+</html>`,
+
+            css: `.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    .nav-list {
+        flex-direction: column;
+    }
+}`
+        };
+
+        // Character and line count update
+        codeInput.addEventListener('input', () => {
+            const text = codeInput.value;
+            charCount.textContent = text.length;
+            lineCount.textContent = text.split('\n').length;
+            
+            // Trigger language detection with debounce
+            triggerLanguageDetection();
+        });
+
+        // Paste event for immediate detection
+        codeInput.addEventListener('paste', () => {
+            setTimeout(() => {
+                triggerLanguageDetection();
+            }, 100);
+        });
+
+        // Language select change handler
+        languageSelect.addEventListener('change', () => {
+            isManualSelection = languageSelect.value !== 'text';
+            
+            if (isManualSelection) {
+                hideDetectionInfo();
+                detectionIndicator.classList.add('hidden');
+            } else {
+                // Re-trigger detection if user selects auto-detect
+                triggerLanguageDetection();
+            }
+        });
+
+        // Debounced language detection
+        function triggerLanguageDetection() {
+            const code = codeInput.value.trim();
+            
+            // Don't detect if manual selection or code too short
+            if (isManualSelection || code.length < 10) {
+                return;
+            }
+            
+            // Clear existing timeout
+            clearTimeout(detectionTimeout);
+            
+            // Set new timeout for detection
+            detectionTimeout = setTimeout(() => {
+                detectLanguage(code);
+            }, 1500); // Wait 1.5 seconds after user stops typing
+        }
+
+        // Language detection function - Automatically detects programming language from code
+        async function detectLanguage(code) {
+            // Prevent detection if already detecting or user manually selected language
+            if (isDetecting || isManualSelection) {
+                return;
+            }
+            
+            try {
+                isDetecting = true;
+                showDetectionStatus(true);
+                
+                // Send code to backend for language detection
+                const response = await fetch('/api/detect-language', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code: code })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.language && data.language !== 'text') {
+                    // Update UI with detected language
+                    updateDetectedLanguage(data.language, data.confidence);
+                    
+                    // Auto-select the detected language if none selected
+                    if (languageSelect.value === 'text') {
+                        languageSelect.value = data.language;
+                        showDetectionIndicator();
+                    }
+                    
+                    lastDetectedLanguage = data.language;
+                } else {
+                    hideDetectionInfo();
+                }
+
+            } catch (error) {
+                console.error('Language detection error:', error);
+                // Gracefully handle network errors - don't show error to user for detection
+                hideDetectionInfo();
+            } finally {
+                isDetecting = false;
+                showDetectionStatus(false);
+            }
+        }
+
+        // Show/hide detection status
+        function showDetectionStatus(show) {
+            if (show) {
+                detectionStatus.classList.remove('hidden');
+                detectionStatus.classList.add('flex');
+            } else {
+                detectionStatus.classList.add('hidden');
+                detectionStatus.classList.remove('flex');
+            }
+        }
+
+        // Update detected language display
+        function updateDetectedLanguage(language, confidence) {
+            const languageNames = {
+                'python': 'Python',
+                'javascript': 'JavaScript',
+                'typescript': 'TypeScript',
+                'html': 'HTML',
+                'css': 'CSS',
+                'cpp': 'C++',
+                'java': 'Java',
+                'csharp': 'C#',
+                'go': 'Go',
+                'ruby': 'Ruby',
+                'php': 'PHP',
+                'json': 'JSON',
+                'xml': 'XML'
+            };
+            
+            detectedLanguageText.textContent = `Auto-detected: ${languageNames[language] || language}`;
+            
+            // Update confidence indicator
+            confidenceIndicator.className = `ml-1 confidence-${confidence}`;
+            confidenceIndicator.title = `Detection confidence: ${confidence}`;
+            
+            detectionInfo.classList.remove('hidden');
+            detectionInfo.classList.add('fade-in');
+        }
+
+        // Hide detection info
+        function hideDetectionInfo() {
+            detectionInfo.classList.add('hidden');
+            detectionInfo.classList.remove('fade-in');
+        }
+
+        // Show detection indicator
+        function showDetectionIndicator() {
+            detectionIndicator.classList.remove('hidden');
+            detectionIndicator.classList.add('pulse');
+            
+            setTimeout(() => {
+                detectionIndicator.classList.remove('pulse');
+            }, 2000);
+        }
+
+        // Format button click handler - Sends code to backend for formatting
+        formatBtn.addEventListener('click', async () => {
+            const code = codeInput.value.trim();
+            let language = languageSelect.value;
+
+            // Validate input before sending request
+            if (!code) {
+                showMessage('Please enter some code to format.', 'error');
+                return;
+            }
+
+            if (language === 'text') {
+                showMessage('Please select a language or let auto-detection identify it first.', 'error');
+                return;
+            }
+
+            try {
+                showLoading(true);
+                clearMessage();
+
+                // Send formatting request to backend API
+                const response = await fetch('/api/indent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        code: code,
+                        language: language
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Display successfully formatted code
+                    displayFormattedCode(data.indented_code, language);
+                    showMessage('Code formatted successfully!', 'success');
+                    
+                    // Show format info with language name
+                    const languageNames = {
+                        'python': 'Python',
+                        'javascript': 'JavaScript', 
+                        'typescript': 'TypeScript',
+                        'html': 'HTML',
+                        'css': 'CSS',
+                        'cpp': 'C++',
+                        'java': 'Java',
+                        'csharp': 'C#',
+                        'go': 'Go',
+                        'ruby': 'Ruby',
+                        'php': 'PHP',
+                        'json': 'JSON',
+                        'xml': 'XML'
+                    };
+                    formattedAsLanguage.textContent = languageNames[language] || language;
+                    formatInfo.classList.remove('hidden');
+                } else {
+                    // Handle API errors gracefully
+                    showMessage(data.error || 'An error occurred while formatting the code.', 'error');
+                }
+
+            } catch (error) {
+                console.error('Format error:', error);
+                // Handle network errors gracefully
+                showMessage('Network error. Please check your connection and try again.', 'error');
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        // Sample button handler - Loads random sample code for demonstration
+        sampleBtn.addEventListener('click', () => {
+            const languages = Object.keys(sampleCode);
+            const randomLanguage = languages[Math.floor(Math.random() * languages.length)];
+            const code = sampleCode[randomLanguage];
+            
+            // Load sample code into input area
+            codeInput.value = code;
+            charCount.textContent = code.length;
+            lineCount.textContent = code.split('\n').length;
+            
+            // Reset to auto-detect mode and trigger language detection
+            isManualSelection = false;
+            languageSelect.value = 'text';
+            hideDetectionInfo();
+            hideOutput();
+            clearMessage();
+            
+            // Trigger automatic language detection after a brief delay
+            setTimeout(() => {
+                triggerLanguageDetection();
+            }, 500);
+            
+            showMessage(`Sample ${randomLanguage} code loaded! Watch the auto-detection work.`, 'success');
+        });
+
+        // Clear button handler
+        clearBtn.addEventListener('click', () => {
+            codeInput.value = '';
+            charCount.textContent = '0';
+            lineCount.textContent = '0';
+            languageSelect.value = 'text';
+            isManualSelection = false;
+            hideOutput();
+            hideDetectionInfo();
+            clearMessage();
+            formatInfo.classList.add('hidden');
+            detectionIndicator.classList.add('hidden');
+            codeInput.focus();
+        });
+
+        // Copy button handler - Copies formatted code to clipboard with visual feedback
+        copyBtn.addEventListener('click', async () => {
+            const codeText = highlightedCode.textContent;
+            
+            try {
+                // Use modern clipboard API to copy code
+                await navigator.clipboard.writeText(codeText);
+                showMessage('Code copied to clipboard!', 'success');
+                
+                // Provide visual feedback by changing button appearance
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+                copyBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                copyBtn.classList.add('bg-green-600');
+                
+                // Reset button appearance after 2 seconds
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.classList.remove('bg-green-600');
+                    copyBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Copy failed:', error);
+                // Fallback message for browsers that don't support clipboard API
+                showMessage('Failed to copy code. Please select and copy manually.', 'error');
+            }
+        });
+
+        // Keyboard shortcuts
+        codeInput.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                formatBtn.click();
+            }
+        });
+
+        // Utility functions
+        function showLoading(show) {
+            if (show) {
+                loadingState.classList.remove('hidden');
+                formatBtn.disabled = true;
+                formatBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                loadingState.classList.add('hidden');
+                formatBtn.disabled = false;
+                formatBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+
+        function displayFormattedCode(code, language) {
+            placeholder.classList.add('hidden');
+            outputCode.classList.remove('hidden');
+            copyBtn.classList.remove('opacity-0', 'invisible');
+            
+            highlightedCode.textContent = code;
+            highlightedCode.className = `language-${language}`;
+            hljs.highlightElement(highlightedCode);
+            
+            outputCode.classList.add('fade-in');
+        }
+
+        function hideOutput() {
+            placeholder.classList.remove('hidden');
+            outputCode.classList.add('hidden');
+            copyBtn.classList.add('opacity-0', 'invisible');
+            outputCode.classList.remove('fade-in');
+            formatInfo.classList.add('hidden');
+        }
+
+        function showMessage(message, type) {
+            clearMessage();
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `p-3 rounded-lg text-sm font-medium fade-in ${
+                type === 'success' 
+                    ? 'bg-green-100 text-green-800 border border-green-200' 
+                    : 'bg-red-100 text-red-800 border border-red-200'
+            }`;
+            
+            messageDiv.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+            
+            messageContainer.appendChild(messageDiv);
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    if (messageDiv.parentNode) {
+                        messageDiv.remove();
+                    }
+                }, 4000);
+            }
+        }
+
+        function clearMessage() {
+            messageContainer.innerHTML = '';
+        }
+
+        // Initialize
+        hljs.highlightAll();
+        codeInput.focus();
+        
+        // Show welcome message
+        setTimeout(() => {
+            showMessage('Welcome! Paste your code and watch automatic language detection in action. ✨', 'success');
+        }, 1000);
+    </script>
+</body>
+</html>
