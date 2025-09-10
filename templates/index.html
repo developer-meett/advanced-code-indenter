@@ -8,6 +8,14 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
     
     <!-- Highlight.js for syntax highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
@@ -97,11 +105,200 @@
             color: #1e40af;
             border: 1px solid #bfdbfe;
         }
+
+        /* Dark mode styles */
+        .dark {
+            color-scheme: dark;
+        }
+
+        .dark .loading-spinner {
+            border: 3px solid #374151;
+            border-top: 3px solid #60a5fa;
+        }
+
+        .dark .detection-spinner {
+            border: 2px solid #374151;
+            border-top: 2px solid #10b981;
+        }
+
+        .dark .confidence-high { color: #34d399; }
+        .dark .confidence-medium { color: #fbbf24; }
+        .dark .confidence-low { color: #f87171; }
+
+        .dark .auto-detected {
+            background-color: #064e3b;
+            color: #a7f3d0;
+            border: 1px solid #065f46;
+        }
+
+        .dark .manual-selected {
+            background-color: #1e3a8a;
+            color: #93c5fd;
+            border: 1px solid #1e40af;
+        }
+
+        /* Button consistency styles */
+        .btn-base {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+            height: 42px;
+            padding: 0 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease-in-out;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            box-shadow: 0 6px 8px -1px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(107, 114, 128, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+            box-shadow: 0 6px 8px -1px rgba(107, 114, 128, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-accent:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            box-shadow: 0 6px 8px -1px rgba(139, 92, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            box-shadow: 0 6px 8px -1px rgba(16, 185, 129, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Dark mode toggle styles */
+        .dark-toggle {
+            position: relative;
+            width: 52px;
+            height: 26px;
+            background: #d1d5db;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+
+        .dark-toggle:hover {
+            background: #9ca3af;
+        }
+
+        .dark .dark-toggle {
+            background: #4f46e5;
+        }
+
+        .dark .dark-toggle:hover {
+            background: #4338ca;
+        }
+
+        .dark-toggle-circle {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        .dark .dark-toggle-circle {
+            transform: translateX(26px);
+            background: #1f2937;
+            color: #fbbf24;
+        }
+
+        /* Professional spacing and layout improvements */
+        .section-spacing {
+            margin-bottom: 2rem;
+        }
+
+        .professional-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .professional-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .professional-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark .professional-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Consistent button group spacing */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 640px) {
+            .button-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn-base {
+                min-width: 100%;
+            }
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen transition-colors duration-300 dark:from-gray-900 dark:to-gray-800 dark:text-white">
     <!-- Header -->
-    <header class="bg-white shadow-sm border-b border-gray-200">
+    <header class="bg-white shadow-sm border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">
@@ -109,13 +306,32 @@
                         <i class="fas fa-magic text-white text-xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">Advanced Code Indenter</h1>
-                        <p class="text-sm text-gray-600">Intelligent code formatting with automatic language detection</p>
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Advanced Code Indenter</h1>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Intelligent code formatting with automatic language detection</p>
                     </div>
                 </div>
-                <div class="hidden sm:flex items-center space-x-2 text-sm text-gray-500">
-                    <i class="fas fa-brain"></i>
-                    <span>Auto-detects 13+ programming languages</span>
+                <div class="flex items-center space-x-4">
+                    <div class="hidden sm:flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                        <i class="fas fa-brain"></i>
+                        <span>Auto-detects 13+ programming languages</span>
+                    </div>
+                    <!-- Dark Mode Toggle -->
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600 dark:text-gray-300">
+                            <i class="fas fa-sun dark:hidden"></i>
+                            <i class="fas fa-moon hidden dark:inline"></i>
+                        </span>
+                        <button 
+                            id="dark-mode-toggle" 
+                            class="dark-toggle"
+                            title="Toggle dark mode"
+                        >
+                            <div class="dark-toggle-circle">
+                                <i class="fas fa-sun dark:hidden text-yellow-500"></i>
+                                <i class="fas fa-moon hidden dark:inline"></i>
+                            </div>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,20 +341,20 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="grid lg:grid-cols-2 gap-8">
             <!-- Input Section -->
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+            <div class="professional-card p-6 section-spacing">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                         <i class="fas fa-edit text-blue-500 mr-2"></i>
                         Input Code
                     </h2>
                     <div class="flex items-center space-x-3">
                         <div id="detection-status" class="hidden flex items-center text-sm">
                             <div class="detection-spinner"></div>
-                            <span class="text-green-600">Detecting language...</span>
+                            <span class="text-green-600 dark:text-green-400">Detecting language...</span>
                         </div>
-                        <label for="language-select" class="text-sm font-medium text-gray-700">Language:</label>
+                        <label for="language-select" class="text-sm font-medium text-gray-700 dark:text-gray-300">Language:</label>
                         <div class="relative">
-                            <select id="language-select" class="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-32">
+                            <select id="language-select" class="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-32 bg-white dark:bg-gray-700 dark:text-white">
                                 <option value="text">Auto-detect</option>
                                 <option value="python">Python</option>
                                 <option value="javascript">JavaScript</option>
@@ -161,7 +377,7 @@
                     </div>
                 </div>
                 
-                <div id="detection-info" class="mb-3 hidden">
+                <div id="detection-info" class="mb-4 hidden">
                     <div class="language-badge auto-detected">
                         <i class="fas fa-brain mr-1"></i>
                         <span id="detected-language-text">Auto-detected: Python</span>
@@ -173,34 +389,34 @@
                     id="code-input" 
                     placeholder="Paste your code here and watch the magic happen... ✨
 Language auto-detection will activate after you paste or stop typing!"
-                    class="w-full h-96 p-4 border border-gray-300 rounded-lg font-mono text-sm leading-relaxed resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    class="w-full h-96 p-4 border border-gray-300 dark:border-gray-600 rounded-lg font-mono text-sm leading-relaxed resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 dark:text-white"
                 ></textarea>
                 
-                <div class="mt-4 flex justify-between items-center">
-                    <div class="flex items-center space-x-4">
+                <div class="mt-6 flex justify-between items-center flex-wrap gap-4">
+                    <div class="button-group">
                         <button 
                             id="format-btn" 
-                            class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-2 rounded-lg font-medium hover:from-blue-600 hover:to-indigo-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 flex items-center"
+                            class="btn-base btn-primary"
                         >
                             <i class="fas fa-magic mr-2"></i>
                             Format Code
                         </button>
                         <button 
                             id="clear-btn" 
-                            class="bg-gray-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200"
+                            class="btn-base btn-secondary"
                         >
                             <i class="fas fa-trash mr-2"></i>
                             Clear
                         </button>
                         <button 
                             id="sample-btn" 
-                            class="bg-purple-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-purple-600 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200"
+                            class="btn-base btn-accent"
                         >
                             <i class="fas fa-code mr-2"></i>
                             Try Sample
                         </button>
                     </div>
-                    <div class="text-xs text-gray-500 flex items-center space-x-4">
+                    <div class="text-xs text-gray-500 dark:text-gray-400 flex items-center space-x-4">
                         <span><span id="char-count">0</span> characters</span>
                         <span><span id="line-count">0</span> lines</span>
                     </div>
@@ -208,20 +424,20 @@ Language auto-detection will activate after you paste or stop typing!"
             </div>
 
             <!-- Output Section -->
-            <div class="bg-white rounded-xl shadow-lg p-6">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+            <div class="professional-card p-6 section-spacing">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                         <i class="fas fa-check-circle text-green-500 mr-2"></i>
                         Formatted Output
                     </h2>
                     <div class="flex items-center space-x-2">
-                        <div id="format-info" class="hidden text-xs text-gray-500 mr-3">
+                        <div id="format-info" class="hidden text-xs text-gray-500 dark:text-gray-400 mr-3">
                             <span>Formatted as: </span>
-                            <span id="formatted-as-language" class="font-medium text-blue-600"></span>
+                            <span id="formatted-as-language" class="font-medium text-blue-600 dark:text-blue-400"></span>
                         </div>
                         <button 
                             id="copy-btn" 
-                            class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 opacity-0 invisible"
+                            class="btn-base btn-success opacity-0 invisible transition-all duration-300"
                         >
                             <i class="fas fa-copy mr-2"></i>
                             Copy Code
@@ -231,24 +447,24 @@ Language auto-detection will activate after you paste or stop typing!"
                 
                 <div class="relative">
                     <!-- Loading State -->
-                    <div id="loading-state" class="hidden absolute inset-0 bg-white bg-opacity-90 rounded-lg flex items-center justify-center z-10">
-                        <div class="flex items-center text-blue-600">
+                    <div id="loading-state" class="hidden absolute inset-0 bg-white dark:bg-gray-800 bg-opacity-90 dark:bg-opacity-90 rounded-lg flex items-center justify-center z-10">
+                        <div class="flex items-center text-blue-600 dark:text-blue-400">
                             <div class="loading-spinner"></div>
                             <span class="font-medium">Formatting your code...</span>
                         </div>
                     </div>
                     
                     <!-- Output Container -->
-                    <div id="output-container" class="h-96 border border-gray-300 rounded-lg overflow-auto">
-                        <div id="placeholder" class="h-full flex items-center justify-center text-gray-400">
+                    <div id="output-container" class="h-96 border border-gray-300 dark:border-gray-600 rounded-lg overflow-auto bg-white dark:bg-gray-800">
+                        <div id="placeholder" class="h-full flex items-center justify-center text-gray-400 dark:text-gray-500">
                             <div class="text-center">
-                                <i class="fas fa-brain text-4xl mb-4 text-indigo-300"></i>
+                                <i class="fas fa-brain text-4xl mb-4 text-indigo-300 dark:text-indigo-400"></i>
                                 <p class="text-lg font-medium">Formatted code will appear here</p>
                                 <p class="text-sm mt-2">Paste code above to see automatic language detection in action!</p>
                                 <div class="mt-4 flex justify-center space-x-4 text-xs">
-                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded">Auto-Detection</span>
-                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">Smart Formatting</span>
-                                    <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded">13+ Languages</span>
+                                    <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">Auto-Detection</span>
+                                    <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">Smart Formatting</span>
+                                    <span class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded">13+ Languages</span>
                                 </div>
                             </div>
                         </div>
@@ -263,80 +479,80 @@ Language auto-detection will activate after you paste or stop typing!"
         </div>
 
         <!-- Language Support Grid -->
-        <div class="mt-12 bg-white rounded-xl shadow-lg p-8">
-            <h3 class="text-xl font-bold text-gray-900 mb-6 text-center flex items-center justify-center">
-                <i class="fas fa-language text-indigo-600 mr-2"></i>
+        <div class="mt-12 professional-card p-8">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center flex items-center justify-center">
+                <i class="fas fa-language text-indigo-600 dark:text-indigo-400 mr-2"></i>
                 Supported Languages & Features
             </h3>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="space-y-3">
-                    <h4 class="font-semibold text-gray-800 border-b border-gray-200 pb-2">Web Technologies</h4>
+                    <h4 class="font-semibold text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-600 pb-2">Web Technologies</h4>
                     <div class="space-y-2 text-sm">
-                        <div class="flex items-center"><i class="fab fa-js text-yellow-500 mr-2"></i>JavaScript</div>
-                        <div class="flex items-center"><i class="fab fa-html5 text-orange-500 mr-2"></i>HTML</div>
-                        <div class="flex items-center"><i class="fab fa-css3 text-blue-500 mr-2"></i>CSS</div>
-                        <div class="flex items-center"><i class="fab fa-js text-blue-600 mr-2"></i>TypeScript</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fab fa-js text-yellow-500 mr-2"></i>JavaScript</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fab fa-html5 text-orange-500 mr-2"></i>HTML</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fab fa-css3 text-blue-500 mr-2"></i>CSS</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fab fa-js text-blue-600 mr-2"></i>TypeScript</div>
                     </div>
                 </div>
                 <div class="space-y-3">
-                    <h4 class="font-semibold text-gray-800 border-b border-gray-200 pb-2">Backend Languages</h4>
+                    <h4 class="font-semibold text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-600 pb-2">Backend Languages</h4>
                     <div class="space-y-2 text-sm">
-                        <div class="flex items-center"><i class="fab fa-python text-blue-600 mr-2"></i>Python</div>
-                        <div class="flex items-center"><i class="fab fa-java text-red-600 mr-2"></i>Java</div>
-                        <div class="flex items-center"><i class="fas fa-hashtag text-purple-600 mr-2"></i>C#</div>
-                        <div class="flex items-center"><i class="fab fa-php text-indigo-600 mr-2"></i>PHP</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fab fa-python text-blue-600 mr-2"></i>Python</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fab fa-java text-red-600 mr-2"></i>Java</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-hashtag text-purple-600 mr-2"></i>C#</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fab fa-php text-indigo-600 mr-2"></i>PHP</div>
                     </div>
                 </div>
                 <div class="space-y-3">
-                    <h4 class="font-semibold text-gray-800 border-b border-gray-200 pb-2">System Languages</h4>
+                    <h4 class="font-semibold text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-600 pb-2">System Languages</h4>
                     <div class="space-y-2 text-sm">
-                        <div class="flex items-center"><i class="fas fa-code text-blue-700 mr-2"></i>C++</div>
-                        <div class="flex items-center"><i class="fab fa-google text-cyan-500 mr-2"></i>Go</div>
-                        <div class="flex items-center"><i class="fas fa-gem text-red-500 mr-2"></i>Ruby</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-code text-blue-700 mr-2"></i>C++</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fab fa-google text-cyan-500 mr-2"></i>Go</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-gem text-red-500 mr-2"></i>Ruby</div>
                     </div>
                 </div>
                 <div class="space-y-3">
-                    <h4 class="font-semibold text-gray-800 border-b border-gray-200 pb-2">Data Formats</h4>
+                    <h4 class="font-semibold text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-600 pb-2">Data Formats</h4>
                     <div class="space-y-2 text-sm">
-                        <div class="flex items-center"><i class="fas fa-brackets-curly text-green-600 mr-2"></i>JSON</div>
-                        <div class="flex items-center"><i class="fas fa-code text-orange-600 mr-2"></i>XML</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-brackets-curly text-green-600 mr-2"></i>JSON</div>
+                        <div class="flex items-center text-gray-700 dark:text-gray-300"><i class="fas fa-code text-orange-600 mr-2"></i>XML</div>
                     </div>
                 </div>
             </div>
             
-            <div class="mt-8 grid md:grid-cols-3 gap-6 pt-6 border-t border-gray-200">
+            <div class="mt-8 grid md:grid-cols-3 gap-6 pt-6 border-t border-gray-200 dark:border-gray-600">
                 <div class="text-center">
-                    <div class="bg-green-100 p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                        <i class="fas fa-brain text-green-600 text-xl"></i>
+                    <div class="bg-green-100 dark:bg-green-900 p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-brain text-green-600 dark:text-green-400 text-xl"></i>
                     </div>
-                    <h4 class="font-semibold text-gray-900 mb-2">Smart Detection</h4>
-                    <p class="text-sm text-gray-600">Uses advanced AI and pattern recognition to automatically identify your code's language</p>
+                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Smart Detection</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Uses advanced AI and pattern recognition to automatically identify your code's language</p>
                 </div>
                 <div class="text-center">
-                    <div class="bg-blue-100 p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                        <i class="fas fa-bolt text-blue-600 text-xl"></i>
+                    <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-bolt text-blue-600 dark:text-blue-400 text-xl"></i>
                     </div>
-                    <h4 class="font-semibold text-gray-900 mb-2">Instant Formatting</h4>
-                    <p class="text-sm text-gray-600">Lightning-fast code formatting with real-time language detection as you type</p>
+                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Instant Formatting</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Lightning-fast code formatting with real-time language detection as you type</p>
                 </div>
                 <div class="text-center">
-                    <div class="bg-purple-100 p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                        <i class="fas fa-palette text-purple-600 text-xl"></i>
+                    <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <i class="fas fa-palette text-purple-600 dark:text-purple-400 text-xl"></i>
                     </div>
-                    <h4 class="font-semibold text-gray-900 mb-2">Beautiful Output</h4>
-                    <p class="text-sm text-gray-600">Syntax highlighting and professional formatting for better code readability</p>
+                    <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Beautiful Output</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">Syntax highlighting and professional formatting for better code readability</p>
                 </div>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="mt-16 bg-gray-900 text-white py-8">
+    <footer class="mt-16 bg-gray-900 dark:bg-gray-950 text-white py-8 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-400">
+            <p class="text-gray-400 dark:text-gray-300">
                 Built with <i class="fas fa-heart text-red-500"></i> using Flask, Pygments, and modern web technologies
             </p>
-            <p class="text-gray-500 text-sm mt-2">
+            <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">
                 Advanced language detection powered by AI • Professional code formatting • Real-time processing
             </p>
         </div>
@@ -365,6 +581,7 @@ Language auto-detection will activate after you paste or stop typing!"
         const detectionIndicator = document.getElementById('detection-indicator');
         const formatInfo = document.getElementById('format-info');
         const formattedAsLanguage = document.getElementById('formatted-as-language');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
 
         // State variables
         let detectionTimeout;
@@ -372,105 +589,64 @@ Language auto-detection will activate after you paste or stop typing!"
         let lastDetectedLanguage = null;
         let isManualSelection = false;
 
+        // Dark Mode Functionality
+        function initDarkMode() {
+            // Check for saved theme preference or default to light mode
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            }
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            if (isDark) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Dark mode toggle event listener
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+
+        // Initialize dark mode on page load
+        initDarkMode();
+
         // Sample code for different languages
         const sampleCode = {
-            python: `def fibonacci(n):
-    if n <= 1:
-        return n
-    else:
-        return fibonacci(n-1) + fibonacci(n-2)
-
-# Print first 10 Fibonacci numbers
-for i in range(10):
-    print(f"F({i}) = {fibonacci(i)}")`,
-            
-            javascript: `function quickSort(arr) {
-    if (arr.length <= 1) {
-        return arr;
-    }
-    
-    const pivot = arr[Math.floor(arr.length / 2)];
-    const left = [];
-    const right = [];
-    
-    for (let i = 0; i < arr.length; i++) {
-        if (i === Math.floor(arr.length / 2)) continue;
-        
-        if (arr[i] < pivot) {
-            left.push(arr[i]);
-        } else {
-            right.push(arr[i]);
-        }
-    }
-    
-    return [...quickSort(left), pivot, ...quickSort(right)];
+            javascript: `function quickSort(arr){
+if(arr.length<=1){
+return arr;
 }
-
-console.log(quickSort([3, 6, 8, 10, 1, 2, 1]));`,
-
-            html: `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Page</title>
-</head>
-<body>
-    <header>
-        <h1>Welcome to My Website</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="home">
-            <h2>Home Section</h2>
-            <p>This is the home section content.</p>
-        </section>
-    </main>
-</body>
-</html>`,
-
-            css: `.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+const pivot=arr[Math.floor(arr.length/2)];
+const left=[];
+const right=[];
+for(let i=0;i<arr.length;i++){
+if(i===Math.floor(arr.length/2))continue;
+if(arr[i]<pivot){
+left.push(arr[i]);
+}else{
+right.push(arr[i]);
 }
-
-.header {
-    background-color: #333;
-    color: white;
-    padding: 1rem;
-    border-radius: 8px;
 }
-
-.nav-list {
-    display: flex;
-    list-style: none;
-    gap: 1rem;
+return[...quickSort(left),pivot,...quickSort(right)];
 }
+console.log(quickSort([3,6,8,10,1,2,1]));`,
 
-.nav-link {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
+            html: `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Sample Page</title></head><body><header><h1>Welcome to My Website</h1><nav><ul><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#contact">Contact</a></li></ul></nav></header><main><section id="home"><h2>Home Section</h2><p>This is the home section content.</p></section></main></body></html>`,
 
-.nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-@media (max-width: 768px) {
-    .nav-list {
-        flex-direction: column;
-    }
-}`
+            css: `.container{max-width:1200px;margin:0 auto;padding:20px;}
+.header{background-color:#333;color:white;padding:1rem;border-radius:8px;}
+.nav-list{display:flex;list-style:none;gap:1rem;}
+.nav-link{color:white;text-decoration:none;padding:0.5rem 1rem;border-radius:4px;transition:background-color 0.3s ease;}
+.nav-link:hover{background-color:rgba(255,255,255,0.1);}
+@media(max-width:768px){.nav-list{flex-direction:column;}}`
         };
 
         // Character and line count update
@@ -810,8 +986,8 @@ console.log(quickSort([3, 6, 8, 10, 1, 2, 1]));`,
             const messageDiv = document.createElement('div');
             messageDiv.className = `p-3 rounded-lg text-sm font-medium fade-in ${
                 type === 'success' 
-                    ? 'bg-green-100 text-green-800 border border-green-200' 
-                    : 'bg-red-100 text-red-800 border border-red-200'
+                    ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-200 dark:border-green-700' 
+                    : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 border border-red-200 dark:border-red-700'
             }`;
             
             messageDiv.innerHTML = `
