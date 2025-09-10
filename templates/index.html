@@ -520,6 +520,7 @@ console.log(quickSort([3, 6, 8, 10, 1, 2, 1]));`,
             }, 1500); // Wait 1.5 seconds after user stops typing
         }
 
+        
         // Language detection function - Automatically detects programming language from code
         async function detectLanguage(code) {
             // Prevent detection if already detecting or user manually selected language
@@ -546,11 +547,10 @@ console.log(quickSort([3, 6, 8, 10, 1, 2, 1]));`,
                     // Update UI with detected language
                     updateDetectedLanguage(data.language, data.confidence);
                     
-                    // Auto-select the detected language if none selected
-                    if (languageSelect.value === 'text') {
-                        languageSelect.value = data.language;
-                        showDetectionIndicator();
-                    }
+                    // *** THIS IS THE FIX: Automatically select the detected language in the dropdown ***
+                    languageSelect.value = data.language; 
+                    
+                    showDetectionIndicator();
                     
                     lastDetectedLanguage = data.language;
                 } else {
