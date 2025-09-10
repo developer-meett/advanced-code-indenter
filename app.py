@@ -490,44 +490,40 @@ def indent_code():
 def format_python_with_black(code):
     """
     Format Python code using a robust two-stage process.
-    First, autopep8 fixes structural issues, then black applies styling.
-    This version includes robust fallbacks to prevent errors.
+    This version will raise an error if dependencies are not found.
     """
-    # Stage 1: Use autopep8 for aggressive structural fixing.
+    # Stage 1: Check for and use autopep8
     try:
         import autopep8
-        # Use aggressive level 2; it's strong but generally safer than 3.
         autopep8_fixed_code = autopep8.fix_code(code, options={'aggressive': 2})
     except ImportError:
-        logger.error("autopep8 is not installed. Python formatting cannot proceed.")
-        return code # Cannot format without the tool
+        logger.error("CRITICAL: autopep8 is not installed in the environment.")
+        # Raise an exception to make the failure visible
+        raise RuntimeError("Formatting failed: autopep8 is missing from the server environment.")
     except Exception as e:
         logger.error(f"autopep8 encountered an error: {e}")
-        return code # Return original code if the first stage fails
+        return code
 
-    # If autopep8 returns an empty string, revert to the original code as a safeguard.
     if not autopep8_fixed_code.strip():
         autopep8_fixed_code = code
 
-    # Stage 2: Use black for opinionated, consistent styling.
+    # Stage 2: Check for and use black
     try:
         import black
         mode = black.Mode(line_length=88)
         black_formatted_code = black.format_str(autopep8_fixed_code, mode=mode)
-        
-        # Sanity check: if black returns an empty string, something went wrong.
+
         if not black_formatted_code.strip():
             logger.warning("Black returned an empty string, reverting to autopep8 result.")
             return autopep8_fixed_code
-            
+
         return black_formatted_code
-        
+
     except ImportError:
-        logger.warning("black is not installed. Returning autopep8 result.")
-        return autopep8_fixed_code # Fallback to the good result from stage 1
+        logger.error("CRITICAL: black is not installed in the environment.")
+        # Raise an exception to make the failure visible
+        raise RuntimeError("Formatting failed: black is missing from the server environment.")
     except Exception as e:
-        # THIS IS THE KEY FIX: If black throws any error, discard its result
-        # and safely return the code formatted by autopep8.
         logger.warning(f"Black formatting failed with an exception: {e}. Reverting to autopep8 result.")
         return autopep8_fixed_code
 
