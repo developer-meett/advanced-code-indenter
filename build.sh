@@ -3,17 +3,17 @@
 set -o errexit
 
 # 1. Install Python dependencies
+echo "Installing Python dependencies..."
 pip install -r requirements.txt
 
 # 2. Install Node.js and Prettier
-#    This section is updated to be more robust.
-#    It uses Render's built-in environment variables to find and set up Node.js.
+echo "Setting up Node.js and installing Prettier..."
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
-nvm install 18
-npm install -g prettier
+# Source the nvm script and then immediately use it
+. "$NVM_DIR/nvm.sh" && nvm install 18 && npm install -g prettier
 
 # 3. Install System Dependencies
+echo "Installing clang-format..."
 apt-get update && apt-get install -y clang-format
+
+echo "Build script completed successfully!"
